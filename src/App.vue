@@ -1,15 +1,36 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <div v-if="sesion">
+      <MenuComponentVue/>
+    </div>
+    <router-view/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import MenuComponentVue from './components/MenuComponent.vue'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MenuComponentVue
+  },
+  data(){
+    return{
+      sesion: false
+    }
+  },
+  mounted(){
+    this.checkSession();
+  },
+  methods: {
+    checkSession() {
+      this.sesion = !!localStorage.getItem('token');
+    }
+  },
+  watch: {
+    $route() {
+      this.checkSession();
+    }
   }
 }
 </script>
@@ -21,6 +42,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
